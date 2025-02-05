@@ -1,130 +1,93 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Layout from "@/components/Layout";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, ThumbsUp, MessageSquare, Share2, Gift, Award } from "lucide-react";
-
-const posts = [
-  {
-    id: 1,
-    author: "Oussama Ben Ali",
-    avatar: "/placeholder.svg",
-    time: "Il y a 2 heures",
-    content: "J'ai 5 bouteilles en plastique à recycler",
-    location: "Tunis, La Marsa",
-    likes: 12,
-    comments: 3,
-  },
-  {
-    id: 2,
-    author: "Sarah Mansour",
-    avatar: "/placeholder.svg",
-    time: "Il y a 3 heures",
-    content: "Je dispose d'un lot de cartons d'emballage à recycler. Disponible aujourd'hui jusqu'à 18h.",
-    location: "Sfax, Route de l'Aéroport",
-    likes: 8,
-    comments: 5,
-  }
-];
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { useNavigate } from "react-router-dom";
+import { Leaf } from "lucide-react";
 
 const Index = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [userType, setUserType] = useState("normal");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isLogin) {
+      // Simulate login
+      navigate("/dashboard");
+    }
+  };
+
   return (
-    <Layout>
-      <div className="space-y-6 max-w-3xl mx-auto">
-        {/* Section création de post */}
-        <Card className="p-4">
-          <div className="flex gap-4">
-            <Avatar>
-              <AvatarImage src="/placeholder.svg" />
-              <AvatarFallback>UN</AvatarFallback>
-            </Avatar>
-            <div className="flex-1 space-y-4">
-              <Input 
-                placeholder="Que souhaitez-vous recycler aujourd'hui ?" 
-                className="w-full"
-              />
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  Ajouter un lieu
-                </Button>
-                <Button size="sm">Publier</Button>
-              </div>
-            </div>
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1 flex flex-col items-center">
+          <div className="flex items-center gap-2 text-primary mb-2">
+            <Leaf className="h-6 w-6" />
+            <span className="text-2xl font-bold">EcoTri</span>
           </div>
-        </Card>
-
-        {/* Points et récompenses */}
-        <Card className="bg-primary/5">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-4">
-                <Award className="w-8 h-8 text-primary" />
-                <div>
-                  <p className="text-sm text-gray-600">Mes points</p>
-                  <p className="text-2xl font-bold text-primary">250</p>
+          <CardTitle className="text-2xl text-center">
+            {isLogin ? "Connexion" : "Inscription"}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="name">Nom complet</Label>
+                  <Input id="name" placeholder="Votre nom" />
                 </div>
-              </div>
-              <Button variant="outline">
-                <Gift className="w-4 h-4 mr-2" />
-                Échanger
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Liste des posts */}
-        <div className="space-y-4">
-          {posts.map((post) => (
-            <Card key={post.id} className="p-4">
-              <div className="space-y-4">
-                {/* En-tête du post */}
-                <div className="flex justify-between items-start">
-                  <div className="flex gap-3">
-                    <Avatar>
-                      <AvatarImage src={post.avatar} />
-                      <AvatarFallback>{post.author[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-semibold">{post.author}</p>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <span>{post.time}</span>
-                        <span className="mx-1">•</span>
-                        <MapPin className="w-3 h-3 mr-1" />
-                        <span>{post.location}</span>
-                      </div>
-                    </div>
+                <div className="space-y-2">
+                  <Label>Type de compte</Label>
+                  <div className="flex gap-4">
+                    <Button
+                      type="button"
+                      variant={userType === "normal" ? "default" : "outline"}
+                      className="flex-1"
+                      onClick={() => setUserType("normal")}
+                    >
+                      Utilisateur
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={userType === "collector" ? "default" : "outline"}
+                      className="flex-1"
+                      onClick={() => setUserType("collector")}
+                    >
+                      Collecteur
+                    </Button>
                   </div>
-                  <Button variant="ghost" size="sm">
-                    Collecter
-                  </Button>
                 </div>
-
-                {/* Contenu du post */}
-                <p className="text-gray-700">{post.content}</p>
-
-                {/* Actions du post */}
-                <div className="flex gap-4 pt-2 border-t">
-                  <Button variant="ghost" size="sm">
-                    <ThumbsUp className="w-4 h-4 mr-2" />
-                    {post.likes}
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    {post.comments}
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Share2 className="w-4 h-4 mr-2" />
-                    Partager
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-    </Layout>
+              </>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" placeholder="votre@email.com" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Mot de passe</Label>
+              <Input id="password" type="password" placeholder="••••••••" />
+            </div>
+            <Button type="submit" className="w-full">
+              {isLogin ? "Se connecter" : "S'inscrire"}
+            </Button>
+            <div className="text-center text-sm">
+              <button
+                type="button"
+                onClick={() => setIsLogin(!isLogin)}
+                className="text-primary hover:underline"
+              >
+                {isLogin
+                  ? "Pas encore de compte ? S'inscrire"
+                  : "Déjà un compte ? Se connecter"}
+              </button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
