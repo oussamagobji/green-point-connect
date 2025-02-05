@@ -1,132 +1,127 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Layout from "@/components/Layout";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { MapPin, Users, Calendar, TrendingUp } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { MapPin, ThumbsUp, MessageSquare, Share2, Gift, Award } from "lucide-react";
 
-const stats = [
+const posts = [
   {
-    title: "Points de collecte",
-    value: "124",
-    icon: MapPin,
-    trend: "+12%",
+    id: 1,
+    author: "Oussama Ben Ali",
+    avatar: "/placeholder.svg",
+    time: "Il y a 2 heures",
+    content: "J'ai 5 bouteilles en plastique à recycler",
+    location: "Tunis, La Marsa",
+    likes: 12,
+    comments: 3,
   },
   {
-    title: "Collecteurs actifs",
-    value: "48",
-    icon: Users,
-    trend: "+5%",
-  },
-  {
-    title: "Tâches en cours",
-    value: "32",
-    icon: Calendar,
-    trend: "+8%",
-  },
-  {
-    title: "Taux de complétion",
-    value: "94%",
-    icon: TrendingUp,
-    trend: "+2%",
-  },
-];
-
-const recentActivities = [
-  {
-    collecteur: "Ahmed Ben Ali",
-    action: "Point collecté",
-    lieu: "Tunis Centre",
-    date: "Il y a 2h",
-  },
-  {
-    collecteur: "Sarah Mansour",
-    action: "Nouvelle demande",
-    lieu: "Sfax Nord",
-    date: "Il y a 3h",
-  },
-  {
-    collecteur: "Karim Gharbi",
-    action: "Tâche complétée",
-    lieu: "Sousse",
-    date: "Il y a 4h",
-  },
+    id: 2,
+    author: "Sarah Mansour",
+    avatar: "/placeholder.svg",
+    time: "Il y a 3 heures",
+    content: "Je dispose d'un lot de cartons d'emballage à recycler. Disponible aujourd'hui jusqu'à 18h.",
+    location: "Sfax, Route de l'Aéroport",
+    likes: 8,
+    comments: 5,
+  }
 ];
 
 const Index = () => {
   return (
     <Layout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-gray-800">Tableau de bord</h2>
-          <div className="text-sm text-gray-500">
-            Dernière mise à jour: {new Date().toLocaleString("fr-FR")}
+      <div className="space-y-6 max-w-3xl mx-auto">
+        {/* Section création de post */}
+        <Card className="p-4">
+          <div className="flex gap-4">
+            <Avatar>
+              <AvatarImage src="/placeholder.svg" />
+              <AvatarFallback>UN</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 space-y-4">
+              <Input 
+                placeholder="Que souhaitez-vous recycler aujourd'hui ?" 
+                className="w-full"
+              />
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Ajouter un lieu
+                </Button>
+                <Button size="sm">Publier</Button>
+              </div>
+            </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat) => (
-            <Card key={stat.title} className="p-6">
-              <div className="flex items-center justify-between">
+        {/* Points et récompenses */}
+        <Card className="bg-primary/5">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-4">
+                <Award className="w-8 h-8 text-primary" />
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                </div>
-                <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <stat.icon className="h-6 w-6 text-primary" />
+                  <p className="text-sm text-gray-600">Mes points</p>
+                  <p className="text-2xl font-bold text-primary">250</p>
                 </div>
               </div>
-              <div className="mt-4 flex items-center">
-                <span className="text-sm font-medium text-green-600">
-                  {stat.trend}
-                </span>
-                <span className="ml-2 text-sm text-gray-500">vs mois dernier</span>
+              <Button variant="outline">
+                <Gift className="w-4 h-4 mr-2" />
+                Échanger
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Liste des posts */}
+        <div className="space-y-4">
+          {posts.map((post) => (
+            <Card key={post.id} className="p-4">
+              <div className="space-y-4">
+                {/* En-tête du post */}
+                <div className="flex justify-between items-start">
+                  <div className="flex gap-3">
+                    <Avatar>
+                      <AvatarImage src={post.avatar} />
+                      <AvatarFallback>{post.author[0]}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold">{post.author}</p>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <span>{post.time}</span>
+                        <span className="mx-1">•</span>
+                        <MapPin className="w-3 h-3 mr-1" />
+                        <span>{post.location}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="sm">
+                    Collecter
+                  </Button>
+                </div>
+
+                {/* Contenu du post */}
+                <p className="text-gray-700">{post.content}</p>
+
+                {/* Actions du post */}
+                <div className="flex gap-4 pt-2 border-t">
+                  <Button variant="ghost" size="sm">
+                    <ThumbsUp className="w-4 h-4 mr-2" />
+                    {post.likes}
+                  </Button>
+                  <Button variant="ghost" size="sm">
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    {post.comments}
+                  </Button>
+                  <Button variant="ghost" size="sm">
+                    <Share2 className="w-4 h-4 mr-2" />
+                    Partager
+                  </Button>
+                </div>
               </div>
             </Card>
           ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Activités récentes</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Collecteur</TableHead>
-                    <TableHead>Action</TableHead>
-                    <TableHead>Lieu</TableHead>
-                    <TableHead>Date</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {recentActivities.map((activity, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium">
-                        {activity.collecteur}
-                      </TableCell>
-                      <TableCell>{activity.action}</TableCell>
-                      <TableCell>{activity.lieu}</TableCell>
-                      <TableCell>{activity.date}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Tâches prioritaires</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-sm text-gray-500">
-                  Les tâches prioritaires seront affichées ici une fois que nous aurons implémenté la fonctionnalité de gestion des tâches.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </Layout>
