@@ -13,7 +13,7 @@ import {
 
 const menuItems = [
   { icon: Home, label: "Tableau de bord", href: "/" },
-  { icon: Map, label: "Carte", href: "/map" },
+  { icon: Map, label: "Points de collecte", href: "/points" },
   { icon: Calendar, label: "Tâches", href: "/tasks" },
   { icon: Users, label: "Collecteurs", href: "/collectors" },
   { icon: Settings, label: "Paramètres", href: "/settings" },
@@ -24,7 +24,7 @@ const Sidebar = () => {
     <ShadcnSidebar>
       <SidebarContent>
         <div className="flex items-center justify-between p-4">
-          <span className="text-lg font-bold">CollecTun</span>
+          <span className="text-lg font-bold">EcoTri</span>
           <SidebarTrigger>
             <Menu className="h-6 w-6" />
           </SidebarTrigger>

@@ -6,7 +6,7 @@ const Navbar = () => {
     <nav className="bg-white border-b border-gray-200 px-4 py-2.5">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <h1 className="text-xl font-bold text-primary-800">CollecTun</h1>
+          <h1 className="text-xl font-bold text-primary-800">EcoTri</h1>
         </div>
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="icon" className="relative">
